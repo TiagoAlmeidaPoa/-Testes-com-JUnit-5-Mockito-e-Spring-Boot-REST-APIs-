@@ -1,5 +1,6 @@
 package br.com.almeidatiago.api;
 
+import br.com.almeidatiago.api.domain.User;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
