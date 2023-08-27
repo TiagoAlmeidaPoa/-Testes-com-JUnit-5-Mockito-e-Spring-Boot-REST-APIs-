@@ -1,6 +1,6 @@
 package br.com.almeidatiago.api.services.impl;
 
-import br.com.almeidatiago.api.domain.Users;
+import br.com.almeidatiago.api.domain.UserEntity;
 import br.com.almeidatiago.api.repositories.UserRepository;
 import br.com.almeidatiago.api.services.UserService;
 import br.com.almeidatiago.api.services.exceptions.ObjectNotFoundException;
@@ -15,8 +15,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
     @Override
-    public Users findById(Integer id) {
-        Optional<Users> obj = userRepository.findById(id);
+    public UserEntity findById(Integer id) {
+        Optional<UserEntity> obj = userRepository.findById(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException("Object ID: "+id+" not found !"));
     }
 
