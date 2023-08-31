@@ -4,6 +4,7 @@ import br.com.almeidatiago.api.domain.UserEntity;
 import br.com.almeidatiago.api.domain.dto.UserDTO;
 import br.com.almeidatiago.api.repositories.UserRepository;
 import br.com.almeidatiago.api.services.UserService;
+import br.com.almeidatiago.api.services.exceptions.DataIntegrityViolationException;
 import br.com.almeidatiago.api.services.exceptions.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +33,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserEntity create(UserDTO obj) {
+        findByEmail(obj);
         return userRepository.save(mapper.map(obj, UserEntity.class));
     }
 
+    private void findByEmail(UserDTO obj) {
+        Optional<UserEntity> user = userRepository.findByEmail(obj.getEmail());
+        if(user.isPresent()) {
+            throw new DataIntegrityViolationException("E-mail: "+obj.getEmail()+" already registered in the system");
+        }
+    }
 
 }
