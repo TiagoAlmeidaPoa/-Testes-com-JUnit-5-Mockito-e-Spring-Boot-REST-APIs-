@@ -17,6 +17,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
@@ -32,6 +33,7 @@ class UserServiceImplTest {
     private UserServiceImpl service;
     @Mock
     private UserRepository repository;
+    @Mock
     private ModelMapper mapper;
     private UserEntity user;
     private UserDTO userDTO;
@@ -43,7 +45,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    void whenFindByIdThanReturnAnUserInstance() {
+    void whenFindByIdThenReturnAnUserInstance() {
         when(repository.findById(anyInt())).thenReturn(optionalUser);
 
         UserEntity response = service.findById(ID);
@@ -78,10 +80,21 @@ class UserServiceImplTest {
         assertEquals(ID, response.get(INDEX).getId());
         assertEquals(NAME, response.get(INDEX).getName());
         assertEquals(EMAIL, response.get(INDEX).getEmail());
+        assertEquals(PASSWORD, response.get(INDEX).getPassword());
     }
 
     @Test
-    void create() {
+    void whenCreateThenReturnSuccess() {
+        when(repository.save(any())).thenReturn(user);
+
+        UserEntity response = service.create(userDTO);
+
+        assertNotNull(response);
+        assertEquals(UserEntity.class, response.getClass());
+        assertEquals(ID, response.getId());
+        assertEquals(NAME, response.getName());
+        assertEquals(EMAIL, response.getEmail());
+        assertEquals(PASSWORD, response.getPassword());
     }
 
     @Test
