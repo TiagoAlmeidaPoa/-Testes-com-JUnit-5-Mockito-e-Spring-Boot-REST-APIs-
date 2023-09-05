@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
     private void findByEmail(UserDTO obj) {
         Optional<UserEntity> user = userRepository.findByEmail(obj.getEmail());
         if(user.isPresent() && !obj.getId().equals(user.get().getId())) {
-            throw new DataIntegrityViolationException("E-mail: "+obj.getEmail()+" already registered in the system");
+            throw new DataIntegrityViolationException("E-mail already registered in the system");
         }
     }
 

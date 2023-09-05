@@ -3,6 +3,7 @@ package br.com.almeidatiago.api.services.impl;
 import br.com.almeidatiago.api.domain.UserEntity;
 import br.com.almeidatiago.api.domain.dto.UserDTO;
 import br.com.almeidatiago.api.repositories.UserRepository;
+import br.com.almeidatiago.api.services.exceptions.DataIntegrityViolationException;
 import br.com.almeidatiago.api.services.exceptions.ObjectNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,8 +18,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -29,6 +29,7 @@ class UserServiceImplTest {
     public static final String PASSWORD = "123";
     public static final String OBJECT_NOT_FOUND = "Object not found !";
     public static final int INDEX = 0;
+    public static final String E_MAIL_ALREADY_REGISTERED_IN_THE_SYSTEM = "E-mail already registered in the system";
     @InjectMocks
     private UserServiceImpl service;
     @Mock
@@ -95,6 +96,19 @@ class UserServiceImplTest {
         assertEquals(NAME, response.getName());
         assertEquals(EMAIL, response.getEmail());
         assertEquals(PASSWORD, response.getPassword());
+    }
+
+    @Test
+    void whenCreateThenReturnAnDataIntegrityViolationException() {
+        when(repository.findByEmail(anyString())).thenReturn(optionalUser);
+
+        try {
+            optionalUser.get().setId(2);
+            service.create(userDTO);
+        } catch (Exception ex) {
+            assertEquals(DataIntegrityViolationException.class, ex.getClass());
+            assertEquals("E-mail already registered in the system", ex.getMessage());
+        }
     }
 
     @Test
