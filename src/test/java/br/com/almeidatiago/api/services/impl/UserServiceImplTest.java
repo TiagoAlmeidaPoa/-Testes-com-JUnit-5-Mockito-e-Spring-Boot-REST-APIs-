@@ -3,12 +3,11 @@ package br.com.almeidatiago.api.services.impl;
 import br.com.almeidatiago.api.domain.UserEntity;
 import br.com.almeidatiago.api.domain.dto.UserDTO;
 import br.com.almeidatiago.api.repositories.UserRepository;
-import org.junit.jupiter.api.Assertions;
+import br.com.almeidatiago.api.services.exceptions.ObjectNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -51,6 +50,17 @@ class UserServiceImplTest {
         assertEquals(ID, response.getId());
         assertEquals(NAME, response.getName());
         assertEquals(EMAIL, response.getEmail());
+    }
+    @Test
+    void whenFindByIdThenReturnAnObjectNotFoundException() {
+        when(repository.findById(anyInt())).thenThrow(new ObjectNotFoundException("Object not found !"));
+
+        try {
+            service.findById(ID);
+        }catch (Exception ex) {
+            assertEquals(ObjectNotFoundException.class, ex.getClass());
+            assertEquals("Object not found !", ex.getMessage());
+        }
     }
 
     @Test
