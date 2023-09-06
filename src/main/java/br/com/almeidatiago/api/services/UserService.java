@@ -9,6 +9,6 @@ public interface UserService {
     UserEntity findById(Integer id);
     List<UserEntity> findAll();
     UserEntity create(UserDTO obj);
-    UserEntity update(Integer id, UserDTO obj);
+    UserEntity update(UserDTO obj);
     void delete(Integer id);
 }
