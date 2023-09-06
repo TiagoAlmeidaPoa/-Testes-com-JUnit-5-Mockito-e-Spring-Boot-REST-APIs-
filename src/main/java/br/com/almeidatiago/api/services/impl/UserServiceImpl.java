@@ -38,9 +38,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserEntity update(Integer id, UserDTO obj) {
-        obj.setId(id);
-        findById(id);
+    public UserEntity update(UserDTO obj) {
         findByEmail(obj);
         return userRepository.save(mapper.map(obj, UserEntity.class));
     }
