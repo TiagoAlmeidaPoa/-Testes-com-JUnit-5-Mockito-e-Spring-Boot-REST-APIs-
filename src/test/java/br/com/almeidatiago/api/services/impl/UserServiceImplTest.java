@@ -107,7 +107,7 @@ class UserServiceImplTest {
             service.create(userDTO);
         } catch (Exception ex) {
             assertEquals(DataIntegrityViolationException.class, ex.getClass());
-            assertEquals("E-mail already registered in the system", ex.getMessage());
+            assertEquals(E_MAIL_ALREADY_REGISTERED_IN_THE_SYSTEM, ex.getMessage());
         }
     }
 
@@ -123,6 +123,19 @@ class UserServiceImplTest {
         assertEquals(NAME, response.getName());
         assertEquals(EMAIL, response.getEmail());
         assertEquals(PASSWORD, response.getPassword());
+    }
+
+    @Test
+    void whenUpdateThenReturnAnDataIntegrityViolationException() {
+        when(repository.findByEmail(anyString())).thenReturn(optionalUser);
+
+        try {
+            optionalUser.get().setId(2);
+            service.update(userDTO);
+        } catch (Exception ex) {
+            assertEquals(DataIntegrityViolationException.class, ex.getClass());
+            assertEquals(E_MAIL_ALREADY_REGISTERED_IN_THE_SYSTEM, ex.getMessage());
+        }
     }
 
     @Test
