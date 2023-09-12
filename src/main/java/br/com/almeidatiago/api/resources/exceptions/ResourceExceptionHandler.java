@@ -1,4 +1,4 @@
-package br.com.almeidatiago.api.repositories.exceptions;
+package br.com.almeidatiago.api.resources.exceptions;
 
 import br.com.almeidatiago.api.services.exceptions.DataIntegrityViolationException;
 import br.com.almeidatiago.api.services.exceptions.ObjectNotFoundException;

@@ -1,4 +1,4 @@
-package br.com.almeidatiago.api.repositories.exceptions;
+package br.com.almeidatiago.api.resources.exceptions;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
