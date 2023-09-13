@@ -41,8 +41,8 @@ class UserResourceTest {
     @Mock
     private UserServiceImpl service;
 
-    private UserEntity user;
-    private UserDTO userDTO;
+    private UserEntity user = new UserEntity();
+    private UserDTO userDTO = new UserDTO();
     @Autowired
     private UserRepository userRepository;
 
